@@ -1,5 +1,5 @@
 import './globals.css'
-import Sidebar from './ui/sidebar'
+import LeftSidebar from './ui/left-sidebar'
 
 export default function RootLayout({
   children,
@@ -9,13 +9,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex h-screen">
-          <div className="w-64 h-screen overflow-y-auto">
-            <Sidebar />
+        <div className="flex justify-center min-h-screen bg-gray-800">
+          <div className="flex w-full max-w-7xl h-screen">
+            <div className="w-64 h-screen overflow-y-auto border-r border-gray-700">
+              <LeftSidebar />
+            </div>
+            <main className="flex-1 p-8 overflow-y-auto">
+              {children}
+            </main>
           </div>
-          <main className="flex-1 p-8 overflow-y-auto">
-            {children}
-          </main>
         </div>
       </body>
     </html>

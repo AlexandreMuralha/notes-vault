@@ -26,7 +26,7 @@ async function getNotes(): Promise<NoteFolder[]> {
   return notes.filter((note): note is NoteFolder => note !== null)
 }
 
-export default async function Sidebar() {
+export default async function LeftSidebar() {
   const notes = await getNotes()
 
   return (
