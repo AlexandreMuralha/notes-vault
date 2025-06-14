@@ -2,13 +2,21 @@ import { visit } from 'unist-util-visit'
 import type { Plugin } from 'unified'
 import type { Text } from 'mdast'
 
+/* 
+* This custom remark plugin is used to converts [[ ]] wiki links to html links.
+*
+* Example: [[Link]] -> <a href="/notes/folder/link">Link</a>
+*
+* It needs further improvements to handle the linking to other folders.
+* Right now it only handles the linking to the same folder.
+* Folder is passed as an option to the plugin.
+*/
+
 const WIKI_LINK_REGEX = /\[\[([^\]]+)\]\]/g
 
-interface WikiLinkOptions {
+export const remarkWikiLink: Plugin = function(options: {
   folder: string
-}
-
-export const remarkWikiLink: Plugin = function(options: WikiLinkOptions = { folder: '' }) {
+} = { folder: '' }) {
   return (tree) => {
     visit(tree, 'text', (node: Text) => {
       const value = node.value

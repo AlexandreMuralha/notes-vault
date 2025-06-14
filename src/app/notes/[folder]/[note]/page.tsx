@@ -4,15 +4,8 @@ import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Components } from 'react-markdown'
-import { remarkWikiLink } from '@/app/lib/remark-wiki-link'
+import { remarkWikiLink } from '@/app/lib/custom-remark-wiki-link'
 import { useParams } from 'next/navigation'
-
-interface PageProps {
-  params: {
-    folder: string
-    note: string
-  }
-}
 
 export default function NotePage() {
   const params = useParams()
@@ -66,16 +59,19 @@ export default function NotePage() {
     blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-4" {...props} />,
   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">{decodeURIComponent(params.note as string)}</h1>
       <article className="prose dark:prose-invert max-w-none">
         <ReactMarkdown 
-          remarkPlugins={[remarkGfm, remarkWikiLink]}
+          remarkPlugins={[
+            remarkGfm,
+            [remarkWikiLink, { folder: params.folder as string }]
+          ]}
           components={components}
         >
           {content}
