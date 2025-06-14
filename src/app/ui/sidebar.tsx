@@ -37,16 +37,19 @@ export default async function Sidebar() {
           <div key={folder.folder}>
             <h3 className="font-semibold text-gray-700 mb-2">{folder.folder}</h3>
             <ul className="space-y-1">
-              {folder.files.map((file) => (
-                <li key={file}>
-                  <Link 
-                    href={`/notes/${encodeURIComponent(folder.folder)}/${encodeURIComponent(file)}`}
-                    className="block px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
-                  >
-                    {file}
-                  </Link>
-                </li>
-              ))}
+              {folder.files.map((file) => {
+                const noteName = file.replace(/\.md$/, '')
+                return (
+                  <li key={file}>
+                    <Link 
+                      href={`/notes/${encodeURIComponent(folder.folder)}/${encodeURIComponent(noteName)}`}
+                      className="block px-2 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded"
+                    >
+                      {noteName}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         ))}

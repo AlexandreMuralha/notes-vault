@@ -7,11 +7,9 @@ export async function GET(
   { params }: { params: { folder: string; note: string } }
 ) {
   try {
-    const { folder, note } = params
-    const decodedFolder = decodeURIComponent(folder)
-    const decodedNote = decodeURIComponent(note)
-    const notePath = path.join(process.cwd(), 'src/notes', decodedFolder, decodedNote)
-    
+    const folder = decodeURIComponent(params.folder)
+    const note = decodeURIComponent(params.note)
+    const notePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
     const content = await fs.readFile(notePath, 'utf-8')
     return new NextResponse(content)
   } catch (error) {
