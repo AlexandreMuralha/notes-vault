@@ -26,32 +26,13 @@ async function getNotes(): Promise<NoteFolder[]> {
   return notes.filter((note): note is NoteFolder => note !== null)
 }
 
-export default async function Home() {
-  const notes = await getNotes()
-
+export default function Home() {
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-8">My Notes</h1>
-    
-      <div className="grid gap-6">
-        {notes.map((folder) => (
-          <div key={folder.folder} className="border rounded-lg p-4">
-            <h2 className="text-xl font-semibold mb-4">{folder.folder}</h2>
-            <ul className="space-y-2">
-              {folder.files.map((file) => (
-                <li key={file}>
-                  <Link 
-                    href={`/notes/${encodeURIComponent(folder.folder)}/${encodeURIComponent(file)}`}
-                    className="text-blue-500 hover:underline"
-                  >
-                    {file}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    </main>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8">Welcome to My Notes</h1>
+      <p className="text-gray-600">
+        Select a note from the sidebar to start reading.
+      </p>
+    </div>
   )
 }

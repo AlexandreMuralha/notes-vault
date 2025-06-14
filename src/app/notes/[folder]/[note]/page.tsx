@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import Link from 'next/link'
 
 async function getNote(folder: string, note: string) {
   /* decodeURIComponent is needed to deal with special characteres and spaces */
@@ -20,19 +19,11 @@ export default async function NotePage({ params }: PageProps) {
   const content = await getNote(folder, note)
 
   return (
-    <main className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
-        <Link 
-          href="/"
-          className="text-blue-500 hover:underline mb-8 inline-block"
-        >
-          ← Back to Notes
-        </Link>
-        <h1 className="text-3xl font-bold mb-8">{decodeURIComponent(note)}</h1>
-        <div className="prose dark:prose-invert max-w-none">
-          <pre className="whitespace-pre-wrap">{content}</pre>
-        </div>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8">{decodeURIComponent(note)}</h1>
+      <div className="prose dark:prose-invert max-w-none">
+        <pre className="whitespace-pre-wrap">{content}</pre>
       </div>
-    </main>
+    </div>
   )
 } 
