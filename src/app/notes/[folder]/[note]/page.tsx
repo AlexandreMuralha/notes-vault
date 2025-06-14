@@ -1,17 +1,11 @@
-import { promises as fs } from 'fs'
-import path from 'path'
+'use client'
+
+import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Components } from 'react-markdown'
 import { remarkWikiLink } from '@/app/lib/remark-wiki-link'
-
-async function getNote(folder: string, note: string) {
-  const decodedFolder = decodeURIComponent(folder)
-  const decodedNote = decodeURIComponent(note)
-  const notePath = path.join(process.cwd(), 'src/notes', decodedFolder, decodedNote)
-  const content = await fs.readFile(notePath, 'utf-8')
-  return content
-}
+import { useParams } from 'next/navigation'
 
 interface PageProps {
   params: {
@@ -20,9 +14,26 @@ interface PageProps {
   }
 }
 
-export default async function NotePage({ params }: PageProps) {
-  const { folder, note } = params
-  const content = await getNote(folder, note)
+export default function NotePage() {
+  const params = useParams()
+  const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadNote() {
+      try {
+        const response = await fetch(`/api/notes/${params.folder}/${params.note}`)
+        const data = await response.text()
+        setContent(data)
+      } catch (error) {
+        console.error('Error loading note:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadNote()
+  }, [params.folder, params.note])
 
   const components: Components = {
     // Customize heading styles
@@ -55,9 +66,13 @@ export default async function NotePage({ params }: PageProps) {
     blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic my-4" {...props} />,
   }
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">{decodeURIComponent(note)}</h1>
+      <h1 className="text-3xl font-bold mb-8">{decodeURIComponent(params.note as string)}</h1>
       <article className="prose dark:prose-invert max-w-none">
         <ReactMarkdown 
           remarkPlugins={[remarkGfm, remarkWikiLink]}
