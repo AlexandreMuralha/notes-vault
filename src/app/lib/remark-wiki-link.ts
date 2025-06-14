@@ -5,10 +5,10 @@ import type { Text } from 'mdast'
 const WIKI_LINK_REGEX = /\[\[([^\]]+)\]\]/g
 
 interface WikiLinkOptions {
-  currentPath: string
+  folder: string
 }
 
-export const remarkWikiLink: Plugin<[WikiLinkOptions?]> = function(options = { currentPath: '' }) {
+export const remarkWikiLink: Plugin = function(options: WikiLinkOptions = { folder: '' }) {
   return (tree) => {
     visit(tree, 'text', (node: Text) => {
       const value = node.value
@@ -31,9 +31,6 @@ export const remarkWikiLink: Plugin<[WikiLinkOptions?]> = function(options = { c
           })
         }
 
-        // Get current folder from path
-        const currentFolder = options.currentPath?.split('/')[2] || ''
-
         // Add the wiki link
         parts.push({
           type: 'wikiLink',
@@ -41,10 +38,10 @@ export const remarkWikiLink: Plugin<[WikiLinkOptions?]> = function(options = { c
           data: {
             hName: 'a',
             hProperties: {
-              href: currentFolder 
-                ? `/notes/${encodeURIComponent(currentFolder)}/${encodeURIComponent(linkText)}`
-                : `/notes/${encodeURIComponent(linkText)}`,
-              className: 'text-blue-600 dark:text-blue-400 hover:underline'
+              href: `/notes/${options.folder}/${encodeURIComponent(linkText)}`,
+              className: 'text-blue-600 dark:text-blue-400 hover:underline',
+              'data-wiki-link': 'true',
+              'data-note': linkText
             },
             hChildren: [{ type: 'text', value: linkText }]
           }
