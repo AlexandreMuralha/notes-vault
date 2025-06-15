@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import Link from 'next/link'
+import config from './config/web-notes.config.json'
 
 interface NoteFolder {
   folder: string
@@ -9,8 +10,10 @@ interface NoteFolder {
 
 async function getNotes(): Promise<NoteFolder[]> {
   const notesDir = path.join(process.cwd(), 'src/notes')
-  const folders = await fs.readdir(notesDir)
-  
+  const folders = config.folders
+    .filter(folder => folder.visible)
+    .map(folder => folder.name)
+
   const notes = await Promise.all(
     folders.map(async (folder) => {
       if (folder === '.DS_Store') return null

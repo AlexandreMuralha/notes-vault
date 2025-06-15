@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "React",
+      "visible": true
+    },
+    {
+      "name": "Python",
+      "visible": true
+    },
+
+    {
+      "name": "Lua",
+      "visible": true
+    }
+  ]
+} 

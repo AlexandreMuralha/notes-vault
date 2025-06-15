@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { NextResponse } from 'next/server'
+import matter from 'gray-matter'
 
 export async function GET(
   request: Request,
@@ -9,9 +10,11 @@ export async function GET(
   try {
     const folder = decodeURIComponent(params.folder)
     const note = decodeURIComponent(params.note)
-    const notePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
-    const content = await fs.readFile(notePath, 'utf-8')
-    return new NextResponse(content)
+    const filePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
+    const fileContent = await fs.readFile(filePath, 'utf8')
+    const { content, data } = matter(fileContent)
+    
+    return new NextResponse(fileContent)
   } catch (error) {
     console.error('Error reading note:', error)
     return new NextResponse('Note not found', { status: 404 })
