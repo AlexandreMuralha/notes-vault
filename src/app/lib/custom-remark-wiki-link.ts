@@ -3,9 +3,9 @@ import type { Plugin } from 'unified'
 import type { Text } from 'mdast'
 
 /* 
-* This custom remark plugin is used to converts [[ ]] wiki links to html links.
+* This custom remark plugin is used to converts [[ ]] wiki links to Next.js Link components.
 *
-* Example: [[Link]] -> <a href="/notes/folder/link">Link</a>
+* Example: [[Link]] -> <Link href="/notes/folder/link">Link</Link>
 *
 * It needs further improvements to handle the linking to other folders.
 * Right now it only handles the linking to the same folder.
@@ -41,17 +41,15 @@ export const remarkWikiLink: Plugin = function(options: {
 
         // Add the wiki link
         parts.push({
-          type: 'wikiLink',
-          value: linkText,
+          type: 'link',
+          url: `/notes/${options.folder}/${encodeURIComponent(linkText)}`,
+          children: [{ type: 'text', value: linkText }],
           data: {
-            hName: 'a',
             hProperties: {
-              href: `/notes/${options.folder}/${encodeURIComponent(linkText)}`,
               className: 'text-blue-600 dark:text-blue-400 hover:underline',
               'data-wiki-link': 'true',
               'data-note': linkText
-            },
-            hChildren: [{ type: 'text', value: linkText }]
+            }
           }
         })
 

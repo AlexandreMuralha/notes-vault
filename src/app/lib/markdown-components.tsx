@@ -1,6 +1,7 @@
 import { Components } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark, dracula, atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import Link from 'next/link'
 
 export const markdownComponents: Components = {
   // Customize heading styles
@@ -38,7 +39,14 @@ export const markdownComponents: Components = {
     )
   },
   // Customize link styles
-  a: ({node, ...props}) => <a className="text-blue-600 dark:text-blue-400 hover:underline" {...props} />,
+  a: ({node, href, ...props}: any) => {
+    // Check if this is a wiki link
+    if (props['data-wiki-link']) {
+      return <Link href={href} className="text-blue-600 dark:text-blue-400 hover:underline" {...props} />
+    }
+    // Regular link
+    return <a href={href} className="text-blue-600 dark:text-blue-400 hover:underline" {...props} />
+  },
   // Customize list styles
   ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4" {...props} />,
   ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4" {...props} />,
