@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="flex justify-center min-h-screen bg-gray-800">
+        <div className="flex justify-center min-h-screen bg-light bg-dark text-primary-light text-primary-dark transition-colors">
           <div className="flex w-full max-w-7xl h-screen">
             <div className="w-64 h-screen overflow-y-auto border-r border-gray-700">
               <LeftSidebar />

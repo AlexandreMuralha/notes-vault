@@ -3,6 +3,7 @@ import path from 'path'
 import NotesNav from './notes-nav'
 import matter from 'gray-matter'
 import config from '../config/web-notes.config.json'
+import { ThemeToggle } from './theme-toggle'
 
 interface NoteFolder {
   folder: string
@@ -61,6 +62,7 @@ export default async function LeftSidebar() {
 
   return (
     <aside className="w-64 border-r border-gray-200 p-4 overflow-y-auto">
+      <ThemeToggle />
       <NotesNav notes={notes} />
     </aside>
   )

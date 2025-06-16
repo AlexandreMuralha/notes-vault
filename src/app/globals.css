@@ -5,6 +5,12 @@
   --foreground: #171717;
 }
 
+body {
+  /* background: var(--background);
+  color: var(--foreground); */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,15 +18,57 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/*
+* Instead of the prefers-color-scheme media query, 
+* override the dark variant to use your custom selector
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom colors */
+
+@layer components {
+  /* Background */
+  .bg-light {
+    @apply bg-gray-200;
+  }
+  .bg-dark {
+    @apply dark:bg-gray-800;
+  }
+
+  /* .section-bg-light {
+    @apply bg-gray-200;
+  }
+  .section-bg-dark {
+    @apply dark:bg-gray-800;
+  } */
+
+  /* Text */
+  .text-primary-light {
+    @apply text-gray-900;
+  }
+  .text-primary-dark {
+    @apply dark:text-gray-300;
+  }
+
+  /* Text secondary - used in description of classes */
+  .text-secondary-light {
+    @apply text-gray-400;
+  }
+  .text-secondary-dark {
+    @apply dark:text-gray-400;
+  }
+
+  /* Hover states */
+  .hover-light {
+    @apply hover:text-gray-900;
+  }
+  .hover-dark {
+    @apply dark:hover:text-gray-100;
+  }
 }
