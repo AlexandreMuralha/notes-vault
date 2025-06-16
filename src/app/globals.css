@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f6f3ea;
   --foreground: #171717;
 }
 
@@ -35,7 +35,7 @@ body {
 @layer components {
   /* Background */
   .bg-light {
-    @apply bg-gray-200;
+    @apply bg-orange-50;
   }
   .bg-dark {
     @apply dark:bg-gray-800;
