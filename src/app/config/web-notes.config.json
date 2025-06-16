@@ -8,10 +8,12 @@
       "name": "Python",
       "visible": true
     },
-
     {
       "name": "Lua",
       "visible": true
     }
-  ]
+  ],
+  "animations": {
+    "slotMachineTitle": true
+  }
 } 
