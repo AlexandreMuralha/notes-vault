@@ -7,6 +7,7 @@ import { remarkWikiLink } from '@/app/lib/custom-remark-wiki-link'
 import { useParams } from 'next/navigation'
 import matter from 'gray-matter'
 import { markdownComponents } from '@/app/lib/markdown-components'
+import { SlotMachineText } from '@/app/lib/slot-machine-tex-animation'
 
 interface Frontmatter {
   title?: string
@@ -41,7 +42,15 @@ export default function NotePage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">{frontmatter.title || decodeURIComponent(params.note as string)}</h1>
+      <h1 className="text-3xl font-bold mb-8">
+        <SlotMachineText 
+          text={frontmatter.title || decodeURIComponent(params.note as string)}
+          delayBetweenChars={0.1}
+          cycles={15}
+          cycleDuration={0.03}
+          cycleDelay={0.03}
+        />
+      </h1>
       {frontmatter.date && (
         <div className="text-gray-500 dark:text-gray-400 mb-8">
           {new Date(frontmatter.date).toLocaleDateString()}
