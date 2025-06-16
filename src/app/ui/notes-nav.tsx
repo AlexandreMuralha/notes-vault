@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface NoteFolder {
   folder: string
@@ -64,37 +65,51 @@ export default function NotesNav({ notes }: NotesNavProps) {
         <div key={folder} className="mb-2">
           <button
             onClick={() => setExpandedFolders(prev => ({ ...prev, [folder]: !prev[folder] }))}
-            className="flex items-center w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900"
+            className="flex items-center w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900 cursor-pointer"
           >
-            {isExpanded ? (
-              <ChevronDownIcon className="h-4 w-4 mr-1" />
-            ) : (
-              <ChevronRightIcon className="h-4 w-4 mr-1" />
-            )}
-            {folder}
+            <motion.div
+              animate={{ rotate: isExpanded ? 90 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center"
+            >
+              <ChevronRightIcon className="h-4 w-4" />
+            </motion.div>
+            <span className="ml-2">
+              {folder}
+            </span>
           </button>
-          {isExpanded && (
-            <div className="ml-4 mt-1 space-y-1">
-              {files.map(({ name }) => {
-                const notePath = `${folderPath}/${name.replace('.md', '')}`
-                const isActive = pathname === notePath
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="ml-4 mt-1 space-y-1">
+                  {files.map(({ name }) => {
+                    const notePath = `${folderPath}/${name.replace('.md', '')}`
+                    const isActive = pathname === notePath
 
-                return (
-                  <Link
-                    key={name}
-                    href={notePath}
-                    className={`block text-sm ${
-                      isActive
-                        ? 'text-blue-600 font-medium'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    <span className="truncate">{name.replace('.md', '')}</span>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
+                    return (
+                      <Link
+                        key={name}
+                        href={notePath}
+                        className={`block text-sm ${
+                          isActive
+                            ? 'text-blue-600 font-medium'
+                            : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                      >
+                        <span className="truncate">{name.replace('.md', '')}</span>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )
     })
