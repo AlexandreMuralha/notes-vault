@@ -8,8 +8,9 @@ export async function GET(
   { params }: { params: { folder: string; note: string } }
 ) {
   try {
-    const folder = decodeURIComponent(params.folder)
-    const note = decodeURIComponent(params.note)
+    const resolvedParams = await (params as any);
+    const folder = decodeURIComponent(resolvedParams.folder)
+    const note = decodeURIComponent(resolvedParams.note)
     const filePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
     const fileContent = await fs.readFile(filePath, 'utf8')
     const { content, data } = matter(fileContent)
