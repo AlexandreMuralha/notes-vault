@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react'
+import { ChevronDownIcon, ChevronRightIcon, FolderIcon, FileTextIcon, FolderOpenIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface NoteFolder {
@@ -74,7 +74,12 @@ export default function NotesNav({ notes }: NotesNavProps) {
             >
               <ChevronRightIcon className="h-4 w-4" />
             </motion.div>
-            <span className="ml-2">
+            <span className="ml-2 flex items-center gap-2 text-base font-semibold">
+              {isExpanded ? (
+                <FolderOpenIcon className="h-4 w-4" />
+              ) : (
+                <FolderIcon className="h-4 w-4" />
+              )}
               {folder}
             </span>
           </button>
@@ -102,7 +107,10 @@ export default function NotesNav({ notes }: NotesNavProps) {
                             : 'text-gray-600 hover:text-gray-900'
                         }`}
                       >
-                        <span className="truncate">{name.replace('.md', '')}</span>
+                        <span className="truncate flex items-center gap-2 ml-2">
+                          {/* <FileTextIcon className="h-4 w-4" /> */}
+                          {name.replace('.md', '')}
+                        </span>
                       </Link>
                     )
                   })}
