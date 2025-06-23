@@ -1,6 +1,8 @@
 import { Components } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark, dracula, atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism'
+// import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism'
+// import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Link from 'next/link'
 
 export const markdownComponents: Components = {

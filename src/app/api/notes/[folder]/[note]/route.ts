@@ -8,12 +8,12 @@ export async function GET(
   { params }: { params: { folder: string; note: string } }
 ) {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const resolvedParams = await (params as any);
     const folder = decodeURIComponent(resolvedParams.folder)
     const note = decodeURIComponent(resolvedParams.note)
     const filePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
     const fileContent = await fs.readFile(filePath, 'utf8')
-    const { content, data } = matter(fileContent)
     
     return new NextResponse(fileContent)
   } catch (error) {
