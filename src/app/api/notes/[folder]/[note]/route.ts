@@ -5,11 +5,10 @@ import matter from 'gray-matter'
 
 export async function GET(
   request: Request,
-  { params }: { params: { folder: string; note: string } }
+  { params }: { params: Promise<{ folder: string; note: string }> }
 ) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const resolvedParams = await (params as any);
+    const resolvedParams = await params;
     const folder = decodeURIComponent(resolvedParams.folder)
     const note = decodeURIComponent(resolvedParams.note)
     const filePath = path.join(process.cwd(), 'src/notes', folder, `${note}.md`)
